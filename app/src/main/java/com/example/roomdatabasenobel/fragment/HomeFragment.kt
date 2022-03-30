@@ -52,7 +52,7 @@ class HomeFragment : Fragment(), MyAdapter.GoToUpdateFragment {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        add_fab.setOnClickListener {
+        binding.addFab.setOnClickListener {
             listener?.addFabClick()
         }
     }
@@ -77,7 +77,7 @@ class HomeFragment : Fragment(), MyAdapter.GoToUpdateFragment {
         fragmentManager
             ?.beginTransaction()
             ?.replace(R.id.fragment_container, UpdateFragment(user))
-            ?.addToBackStack(null)
+            ?.addToBackStack(null) /** change! **/
             ?.commit()
     }
 }
