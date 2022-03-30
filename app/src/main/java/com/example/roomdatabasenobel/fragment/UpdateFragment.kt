@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.roomdatabasenobel.R
 import com.example.roomdatabasenobel.adapter.MyAdapter
 import com.example.roomdatabasenobel.data.User
+import com.example.roomdatabasenobel.databinding.FragmentUpdateBinding
 import com.example.roomdatabasenobel.viewmodel.UserViewModel
 import kotlinx.android.synthetic.main.fragment_update.*
 import kotlinx.android.synthetic.main.fragment_update.view.*
@@ -23,13 +24,15 @@ class UpdateFragment(user: User): Fragment() {
     private var userList: User = user
     private lateinit var myViewModel: UserViewModel
     private lateinit var updateBtn: Button
+    private lateinit var binding: FragmentUpdateBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_update, container, false)
+        binding = FragmentUpdateBinding.inflate(inflater, container, false)
+        val view = binding.root
         myViewModel = ViewModelProvider(this)[UserViewModel::class.java]
 
         view.update_firstName.setText(userList.firstName)
@@ -41,8 +44,7 @@ class UpdateFragment(user: User): Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        updateBtn = view.findViewById(R.id.update_btn)
-        updateBtn.setOnClickListener {
+        binding.updateBtn.setOnClickListener {
             updateUser()
         }
     }

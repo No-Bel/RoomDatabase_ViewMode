@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.roomdatabasenobel.R
 import com.example.roomdatabasenobel.adapter.MyAdapter
 import com.example.roomdatabasenobel.data.User
+import com.example.roomdatabasenobel.databinding.FragmentHomeBinding
 import com.example.roomdatabasenobel.viewmodel.UserViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -21,15 +22,17 @@ class HomeFragment : Fragment(), MyAdapter.GoToUpdateFragment {
     private lateinit var recyclerView: RecyclerView
     private lateinit var myAdapter: MyAdapter
     private lateinit var myViewModel: UserViewModel
+    private lateinit var binding: FragmentHomeBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_home, container, false)
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        val view = binding.root
 
-        recyclerView = view.findViewById(R.id.recyclerview)
+        recyclerView = binding.recyclerview
         init()
         myAdapter.editUpdateUser(this)
 

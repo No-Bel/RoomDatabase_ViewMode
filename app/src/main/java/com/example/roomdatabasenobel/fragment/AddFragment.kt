@@ -12,19 +12,22 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.roomdatabasenobel.R
 import com.example.roomdatabasenobel.data.User
+import com.example.roomdatabasenobel.databinding.FragmentAddBinding
 import com.example.roomdatabasenobel.viewmodel.UserViewModel
 import kotlinx.android.synthetic.main.fragment_add.*
 
 class AddFragment : Fragment() {
 
     private lateinit var myViewModel: UserViewModel
+    private lateinit var binding: FragmentAddBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_add, container, false)
+        binding = FragmentAddBinding.inflate(inflater, container, false)
+        val view = binding.root
 
         myViewModel = ViewModelProvider(this)[UserViewModel::class.java]
 
@@ -34,7 +37,7 @@ class AddFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        add_btn.setOnClickListener {
+        binding.addBtn.setOnClickListener {
             insertDataToDatabase()
             listener?.goBackToHomeScreen()
         }
