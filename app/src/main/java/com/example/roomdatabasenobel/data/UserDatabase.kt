@@ -5,27 +5,38 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [User::class], version = 1, exportSchema = false)
+/** იმპლემენტაციას ვუკეთებთ Database-ს.
+ * ვაზუსტებთ entities ანუ დათა ობიექტს.
+ * ამ შემთხვევაში ჩვენ გვაქვს მხოლოდ 1 entity -- [User::class] .
+ * version = 1 - Database-ის ვერსია.
+ * exportSchema = false - თუ არ გვინდა ვერსიების ჩამატება ცალკე მიცემულ ფოლდერში.
+ * false -  იმიტომ რომ True დეფულტად აქვს. **/
+@Database(entities = [User::class], version = 3, exportSchema = false)
 abstract class UserDatabase : RoomDatabase() {
 
     abstract fun userDao(): UserDao
+
+    /** ყველაფერი რაც ამ კლასშია ხდება ხილულია ყველა კლასისთვის  **/
     companion object {
+
         @Volatile
         private var INSTANCE: UserDatabase? = null
 
         fun getDatabase(context: Context): UserDatabase {
-            val tempInstance = INSTANCE
-            if (tempInstance != null) {
-                return tempInstance
+            val aInstance = INSTANCE
+            if (aInstance != null) {
+                return aInstance
             }
+            /** თუ aInstance ნალია ჩვენ ვქმნით ახალ instance synchronized ბლოკში. **/
             synchronized(this) {
-                val instance = Room.databaseBuilder(
+                val bInstance = Room.databaseBuilder(
                     context.applicationContext,
                     UserDatabase::class.java,
                     "user_database"
-                ).build()
-                INSTANCE = instance
-                return instance
+                ).fallbackToDestructiveMigration().build()
+                /** და ვუტოლებთ INSTANCE ახალ bInstance. **/
+                INSTANCE = bInstance
+                return bInstance
             }
         }
     }

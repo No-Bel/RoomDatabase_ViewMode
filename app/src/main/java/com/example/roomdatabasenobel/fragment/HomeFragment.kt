@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -15,7 +16,6 @@ import com.example.roomdatabasenobel.adapter.MyAdapter
 import com.example.roomdatabasenobel.data.User
 import com.example.roomdatabasenobel.databinding.FragmentHomeBinding
 import com.example.roomdatabasenobel.viewmodel.UserViewModel
-import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment(), MyAdapter.GoToUpdateFragment {
 
@@ -55,6 +55,15 @@ class HomeFragment : Fragment(), MyAdapter.GoToUpdateFragment {
         binding.addFab.setOnClickListener {
             listener?.addFabClick()
         }
+
+        binding.allUserDeleteFab.setOnClickListener {
+            deleteAllUser()
+        }
+    }
+
+    private fun deleteAllUser() {
+        myViewModel.deleteAllUserVm()
+        Toast.makeText(requireContext(), "Successfully remove All Users.", Toast.LENGTH_SHORT).show()
     }
 
     private var listener: AddFabClick? = null
@@ -77,7 +86,8 @@ class HomeFragment : Fragment(), MyAdapter.GoToUpdateFragment {
         fragmentManager
             ?.beginTransaction()
             ?.replace(R.id.fragment_container, UpdateFragment(user))
-            ?.addToBackStack(null) /** change! **/
+            ?.addToBackStack(null)
+            /** change! **/
             ?.commit()
     }
 }

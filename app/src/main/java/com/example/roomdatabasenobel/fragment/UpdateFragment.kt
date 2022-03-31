@@ -2,24 +2,22 @@ package com.example.roomdatabasenobel.fragment
 
 import android.content.Context
 import android.os.Bundle
-import android.os.UserHandle
 import android.text.Editable
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.roomdatabasenobel.R
-import com.example.roomdatabasenobel.adapter.MyAdapter
 import com.example.roomdatabasenobel.data.User
 import com.example.roomdatabasenobel.databinding.FragmentUpdateBinding
 import com.example.roomdatabasenobel.viewmodel.UserViewModel
 import kotlinx.android.synthetic.main.fragment_update.*
 import kotlinx.android.synthetic.main.fragment_update.view.*
 
-class UpdateFragment(user: User): Fragment() {
+class UpdateFragment(user: User) : Fragment() {
 
     private var userList: User = user
     private lateinit var myViewModel: UserViewModel
@@ -47,6 +45,10 @@ class UpdateFragment(user: User): Fragment() {
         binding.updateBtn.setOnClickListener {
             updateUser()
         }
+
+        binding.userDeleteFab.setOnClickListener {
+            deleteUser()
+        }
     }
 
     private fun updateUser() {
@@ -60,8 +62,17 @@ class UpdateFragment(user: User): Fragment() {
             listener?.goBackHomeScreenFromUpdateFragment()
         }
     }
+
     private fun inputCheck(firstName: String, lastName: String, age: Editable): Boolean {
         return !(TextUtils.isEmpty(firstName) || TextUtils.isEmpty(lastName) || age.isEmpty())
+    }
+
+
+    private fun deleteUser() {
+        myViewModel.deleteUserVm(userList)
+        val fullName = userList.firstName + " " + userList.lastName
+        Toast.makeText(requireContext(), "Successfully removed: ${fullName}.", Toast.LENGTH_SHORT).show()
+        listener?.goBackHomeScreenFromUpdateFragment()
     }
 
     private var listener: GoBackHomeScreenFromUpdateFragment? = null

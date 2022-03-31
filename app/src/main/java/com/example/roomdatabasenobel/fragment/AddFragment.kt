@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.roomdatabasenobel.R
 import com.example.roomdatabasenobel.data.User
@@ -20,6 +21,7 @@ class AddFragment : Fragment() {
 
     private lateinit var myViewModel: UserViewModel
     private lateinit var binding: FragmentAddBinding
+    private var userId = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,6 +43,9 @@ class AddFragment : Fragment() {
             insertDataToDatabase()
             listener?.goBackToHomeScreen()
         }
+        myViewModel.readAllData.observe(viewLifecycleOwner, Observer {
+            userId = it.size + 1
+        })
     }
 
     private fun insertDataToDatabase() {
@@ -49,7 +54,9 @@ class AddFragment : Fragment() {
         val age = addAge.text
 
         if (inputCheck(firstName, lastName, age)) {
-            val user = User(0, firstName, lastName, Integer.parseInt(age.toString()))
+
+            val user = User(userId, firstName, lastName, Integer.parseInt(age.toString()))
+            /** ვამატაბეთ data-ს Database-ში **/
             myViewModel.addUserVm(user)
             Toast.makeText(requireContext(), "Successfully added user!", Toast.LENGTH_SHORT).show()
         } else {
@@ -77,5 +84,4 @@ class AddFragment : Fragment() {
         super.onDetach()
         listener = null
     }
-
 }

@@ -10,6 +10,8 @@ import com.example.roomdatabasenobel.repository.UserRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+/** AndroidViewModel-ის განსხვავება ჩვეულებრივ ViewModel-თან არის ის,
+ *  რომ ის შეიცავს Application-ის reference-ს (მისამართს). **/
 class UserViewModel(app: Application) : AndroidViewModel(app) {
 
     val readAllData: LiveData<List<User>>
@@ -30,6 +32,18 @@ class UserViewModel(app: Application) : AndroidViewModel(app) {
     fun updateUserVm(user: User) {
         viewModelScope.launch(Dispatchers.IO) {
             repo.updateUserRp(user)
+        }
+    }
+
+    fun deleteUserVm(user: User) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repo.deleteUserRp(user)
+        }
+    }
+
+    fun deleteAllUserVm() {
+        viewModelScope.launch(Dispatchers.IO) {
+            repo.deleteAllUserRp()
         }
     }
 
