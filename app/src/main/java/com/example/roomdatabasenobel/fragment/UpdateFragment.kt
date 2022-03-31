@@ -21,7 +21,6 @@ class UpdateFragment(user: User) : Fragment() {
 
     private var userList: User = user
     private lateinit var myViewModel: UserViewModel
-    private lateinit var updateBtn: Button
     private lateinit var binding: FragmentUpdateBinding
 
     override fun onCreateView(
