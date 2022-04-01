@@ -7,9 +7,10 @@ import androidx.room.*
 interface UserDao {
 
     /** ანოტაციას ვუკეთებთ Insert-ს (Data-ს ვსვამთ). **/
-//    IGNORE - როგორც მივხვდი თუ ახალი უსერი იდენტური იქნება იმისა რაც გვაქვს, მაშინ აიგნორებს ამ კონფლიქტს.
+//    IGNORE - როგორც მივხვდი თუ ახალი უზერი იდენტური იქნება იმისა რაც გვაქვს, მაშინ იგნორს უკეთებს კონფლიქტს.
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addUserDao(user: User)
+
     /** რომ წავიკითხოთ Data
      * Query - მოთხოვნა
      * The ASC command is used to sort the data returned in ascending order.**/
