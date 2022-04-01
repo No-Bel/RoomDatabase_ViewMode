@@ -11,7 +11,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.example.roomdatabasenobel.R
 import com.example.roomdatabasenobel.data.User
 import com.example.roomdatabasenobel.databinding.FragmentAddBinding
 import com.example.roomdatabasenobel.viewmodel.UserViewModel
@@ -43,7 +42,7 @@ class AddFragment : Fragment() {
             insertDataToDatabase()
             listener?.goBackToHomeScreen()
         }
-        myViewModel.readAllData.observe(viewLifecycleOwner, Observer {
+        myViewModel.readAllDataVm.observe(viewLifecycleOwner, Observer {
             userId = it.size + 1
         })
     }

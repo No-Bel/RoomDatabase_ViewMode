@@ -9,6 +9,7 @@ import androidx.room.RoomDatabase
  * ვაზუსტებთ entities ანუ დათა ობიექტს.
  * ამ შემთხვევაში ჩვენ გვაქვს მხოლოდ 1 entity -- [User::class] .
  * version = 1 - Database-ის ვერსია.
+ * ამ კლასში ცვლილებებთან ერთად version-იც უნდა შეიცვალოს.
  * exportSchema = false - თუ არ გვინდა ვერსიების ჩამატება ცალკე მიცემულ ფოლდერში.
  * false -  იმიტომ რომ True დეფულტად აქვს. **/
 @Database(entities = [User::class], version = 3, exportSchema = false)
@@ -16,9 +17,10 @@ abstract class UserDatabase : RoomDatabase() {
 
     abstract fun userDao(): UserDao
 
-    /** ყველაფერი რაც ამ კლასშია ხდება ხილულია ყველა კლასისთვის  **/
+    /** companion object - ყველაფერი რაც ამ ობიექტშია,ხდება ხილულია ყველა კლასისთვის  **/
     companion object {
 
+        /** Volatile - უმალ ხდება ხილული other thread-ებში  **/
         @Volatile
         private var INSTANCE: UserDatabase? = null
 
@@ -27,7 +29,7 @@ abstract class UserDatabase : RoomDatabase() {
             if (aInstance != null) {
                 return aInstance
             }
-            /** თუ aInstance ნალია ჩვენ ვქმნით ახალ instance synchronized ბლოკში. **/
+            /** თუ aInstance ნალია ჩვენ ვქმნით ახალ instance-ს synchronized ბლოკში. **/
             synchronized(this) {
                 val bInstance = Room.databaseBuilder(
                     context.applicationContext,

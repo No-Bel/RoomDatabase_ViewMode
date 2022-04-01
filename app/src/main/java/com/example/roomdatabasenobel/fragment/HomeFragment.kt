@@ -44,7 +44,7 @@ class HomeFragment : Fragment(), MyAdapter.GoToUpdateFragment {
         myAdapter = MyAdapter()
         recyclerView.adapter = myAdapter
         myViewModel = ViewModelProvider(this)[UserViewModel::class.java]
-        myViewModel.readAllData.observe(viewLifecycleOwner, Observer {
+        myViewModel.readAllDataVm.observe(viewLifecycleOwner, Observer {
             myAdapter.setData(it)
         })
     }

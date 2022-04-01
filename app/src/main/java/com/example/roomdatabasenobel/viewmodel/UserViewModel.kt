@@ -14,13 +14,13 @@ import kotlinx.coroutines.launch
  *  რომ ის შეიცავს Application-ის reference-ს (მისამართს). **/
 class UserViewModel(app: Application) : AndroidViewModel(app) {
 
-    val readAllData: LiveData<List<User>>
+    val readAllDataVm: LiveData<List<User>>
     private val repo: UserRepo
 
     init {
         val userDao = UserDatabase.getDatabase(app).userDao()
         repo = UserRepo(userDao)
-        readAllData = repo.readAllData
+        readAllDataVm = repo.readAllDataRp
     }
 
     fun addUserVm(user: User) {
