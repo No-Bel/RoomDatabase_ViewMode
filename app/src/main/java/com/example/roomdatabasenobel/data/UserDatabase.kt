@@ -29,8 +29,7 @@ abstract class UserDatabase : RoomDatabase() {
             if (aInstance != null) {
                 return aInstance
             }
-            /** თუ aInstance ნალია ჩვენ ვქმნით ახალ instance-ს synchronized ბლოკში. **/
-            synchronized(this) {
+            /** თუ aInstance ნალია ჩვენ ვქმნით ახალ instance-ს  **/
                 val bInstance = Room.databaseBuilder(
                     context.applicationContext,
                     UserDatabase::class.java,
@@ -39,7 +38,6 @@ abstract class UserDatabase : RoomDatabase() {
                 /** და ვუტოლებთ INSTANCE ახალ bInstance. **/
                 INSTANCE = bInstance
                 return bInstance
-            }
         }
     }
 }
