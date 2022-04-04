@@ -5,8 +5,6 @@ import com.example.roomdatabasenobel.data.User
 import com.example.roomdatabasenobel.data.UserDao
 
 class UserRepo(private val userDao: UserDao) {
-
-
     val readAllDataRp: LiveData<List<User>> = userDao.readAllDataDao()
 
     suspend fun addUserRp(user: User) {

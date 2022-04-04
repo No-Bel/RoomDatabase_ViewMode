@@ -12,7 +12,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.roomdatabasenobel.data.User
+import com.example.roomdatabasenobel.data.UserDao
+import com.example.roomdatabasenobel.data.UserDatabase
 import com.example.roomdatabasenobel.databinding.FragmentAddBinding
+import com.example.roomdatabasenobel.repository.UserRepo
+import com.example.roomdatabasenobel.viewmodel.MainViewModelFactory
 import com.example.roomdatabasenobel.viewmodel.UserViewModel
 import kotlinx.android.synthetic.main.fragment_add.*
 
@@ -20,6 +24,12 @@ class AddFragment : Fragment() {
 
     private lateinit var myViewModel: UserViewModel
     private lateinit var binding: FragmentAddBinding
+
+    private lateinit var viewModelFactory: MainViewModelFactory
+    private lateinit var userDao: UserDao
+    private lateinit var repo: UserRepo
+    private lateinit var myDatabase: UserDatabase
+
     private var userId = 0
 
     override fun onCreateView(
@@ -29,12 +39,17 @@ class AddFragment : Fragment() {
     ): View? {
         binding = FragmentAddBinding.inflate(inflater, container, false)
         val view = binding.root
-
-        myViewModel = ViewModelProvider(this)[UserViewModel::class.java]
-
+        init()
         return view
     }
 
+    private fun init() {
+        myDatabase = UserDatabase.getDatabase(requireContext())
+        userDao = myDatabase.userDao()
+        repo = UserRepo(userDao)
+        viewModelFactory = MainViewModelFactory(repo)
+        myViewModel = ViewModelProvider(this, viewModelFactory)[UserViewModel::class.java]
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -53,7 +68,6 @@ class AddFragment : Fragment() {
         val age = addAge.text
 
         if (inputCheck(firstName, lastName, age)) {
-
             val user = User(userId, firstName, lastName, Integer.parseInt(age.toString()))
             /** ვამატაბეთ data-ს Database-ში **/
             myViewModel.addUserVm(user)
@@ -61,7 +75,6 @@ class AddFragment : Fragment() {
         } else {
             Toast.makeText(requireContext(), "Please fill out all fields!", Toast.LENGTH_LONG).show()
         }
-
     }
 
     private fun inputCheck(firstName: String, lastName: String, age: Editable): Boolean {

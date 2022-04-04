@@ -14,7 +14,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.roomdatabasenobel.R
 import com.example.roomdatabasenobel.adapter.MyAdapter
 import com.example.roomdatabasenobel.data.User
+import com.example.roomdatabasenobel.data.UserDao
+import com.example.roomdatabasenobel.data.UserDatabase
 import com.example.roomdatabasenobel.databinding.FragmentHomeBinding
+import com.example.roomdatabasenobel.repository.UserRepo
+import com.example.roomdatabasenobel.viewmodel.MainViewModelFactory
 import com.example.roomdatabasenobel.viewmodel.UserViewModel
 
 class HomeFragment : Fragment(), MyAdapter.GoToUpdateFragment {
@@ -22,7 +26,13 @@ class HomeFragment : Fragment(), MyAdapter.GoToUpdateFragment {
     private lateinit var recyclerView: RecyclerView
     private lateinit var myAdapter: MyAdapter
     private lateinit var myViewModel: UserViewModel
+    private lateinit var repo: UserRepo
     private lateinit var binding: FragmentHomeBinding
+
+    private lateinit var viewModelFactory: MainViewModelFactory
+    private lateinit var userDao: UserDao
+    private lateinit var myDatabase: UserDatabase
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,24 +41,26 @@ class HomeFragment : Fragment(), MyAdapter.GoToUpdateFragment {
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         val view = binding.root
-
-        recyclerView = binding.recyclerview
         init()
-        myAdapter.editUpdateUser(this)
-
         return view
     }
 
     private fun init() {
+        myDatabase = UserDatabase.getDatabase(requireContext())
+        userDao = myDatabase.userDao()
+        repo = UserRepo(userDao)
+        viewModelFactory = MainViewModelFactory(repo)
+
+        recyclerView = binding.recyclerview
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         myAdapter = MyAdapter()
         recyclerView.adapter = myAdapter
-        myViewModel = ViewModelProvider(this)[UserViewModel::class.java]
+        myViewModel = ViewModelProvider(this, viewModelFactory)[UserViewModel::class.java]
         myViewModel.readAllDataVm.observe(viewLifecycleOwner, Observer {
             myAdapter.setData(it)
         })
+        myAdapter.editUpdateUser(this)
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

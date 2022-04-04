@@ -13,7 +13,6 @@ class MyAdapter : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
     private var userList = ArrayList<User>()
 
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
         fun updateUser(user: User) {
             itemView.setOnClickListener {
                 listener?.goToUpdateFragment(user)
@@ -35,7 +34,6 @@ class MyAdapter : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
         holder.itemView.lastName.text = currentItem.lastName
         holder.itemView.age.text = currentItem.age.toString()
         holder.updateUser(currentItem)
-
     }
 
     override fun getItemCount() = userList.size

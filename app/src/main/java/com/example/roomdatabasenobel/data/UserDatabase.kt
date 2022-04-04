@@ -20,15 +20,9 @@ abstract class UserDatabase : RoomDatabase() {
     /** companion object - ყველაფერი რაც ამ ობიექტშია,ხდება ხილულია ყველა კლასისთვის  **/
     companion object {
 
-        /** Volatile - ამ ფილდში ჩაწერილი ინფორმაცია, უმალ ხდება ხილული other thread-ებში  **/
-        @Volatile
         private var INSTANCE: UserDatabase? = null
 
         fun getDatabase(context: Context): UserDatabase {
-            val aInstance = INSTANCE
-            if (aInstance != null) {
-                return aInstance
-            }
             /** თუ aInstance ნალია ჩვენ ვქმნით ახალ instance-ს  **/
                 val bInstance = Room.databaseBuilder(
                     context.applicationContext,

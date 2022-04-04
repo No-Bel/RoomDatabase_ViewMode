@@ -7,21 +7,28 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.roomdatabasenobel.data.User
+import com.example.roomdatabasenobel.data.UserDao
+import com.example.roomdatabasenobel.data.UserDatabase
 import com.example.roomdatabasenobel.databinding.FragmentUpdateBinding
+import com.example.roomdatabasenobel.repository.UserRepo
+import com.example.roomdatabasenobel.viewmodel.MainViewModelFactory
 import com.example.roomdatabasenobel.viewmodel.UserViewModel
 import kotlinx.android.synthetic.main.fragment_update.*
-import kotlinx.android.synthetic.main.fragment_update.view.*
 
 class UpdateFragment(user: User) : Fragment() {
 
     private var userList: User = user
     private lateinit var myViewModel: UserViewModel
     private lateinit var binding: FragmentUpdateBinding
+
+    private lateinit var viewModelFactory: MainViewModelFactory
+    private lateinit var userDao: UserDao
+    private lateinit var repo: UserRepo
+    private lateinit var myDatabase: UserDatabase
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,13 +37,23 @@ class UpdateFragment(user: User) : Fragment() {
     ): View? {
         binding = FragmentUpdateBinding.inflate(inflater, container, false)
         val view = binding.root
-        myViewModel = ViewModelProvider(this)[UserViewModel::class.java]
-
-        view.update_firstName.setText(userList.firstName)
-        view.update_lastName.setText(userList.lastName)
-        view.update_age.setText(userList.age.toString())
-
+        init()
+        showCurrentUser()
         return view
+    }
+
+    private fun showCurrentUser() {
+        binding.updateFirstName.setText(userList.firstName)
+        binding.updateLastName.setText(userList.lastName)
+        binding.updateAge.setText(userList.age.toString())
+    }
+
+    private fun init() {
+        myDatabase = UserDatabase.getDatabase(requireContext())
+        userDao = myDatabase.userDao()
+        repo = UserRepo(userDao)
+        viewModelFactory = MainViewModelFactory(repo)
+        myViewModel = ViewModelProvider(this, viewModelFactory)[UserViewModel::class.java]
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,9 +68,9 @@ class UpdateFragment(user: User) : Fragment() {
     }
 
     private fun updateUser() {
-        val firstName = update_firstName.text.toString()
-        val lastName = update_lastName.text.toString()
-        val age = Integer.parseInt(update_age.text.toString())
+        val firstName = binding.updateFirstName.text.toString()
+        val lastName = binding.updateLastName.text.toString()
+        val age = Integer.parseInt(binding.updateAge.text.toString())
 
         if (inputCheck(firstName, lastName, update_age.text)) {
             val updateUser = User(userList.id, firstName, lastName, age)
@@ -66,11 +83,11 @@ class UpdateFragment(user: User) : Fragment() {
         return !(TextUtils.isEmpty(firstName) || TextUtils.isEmpty(lastName) || age.isEmpty())
     }
 
-
     private fun deleteUser() {
         myViewModel.deleteUserVm(userList)
         val fullName = userList.firstName + " " + userList.lastName
-        Toast.makeText(requireContext(), "Successfully removed: ${fullName}.", Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), "Successfully removed: ${fullName}.", Toast.LENGTH_SHORT)
+            .show()
         listener?.goBackHomeScreenFromUpdateFragment()
     }
 
@@ -89,6 +106,4 @@ class UpdateFragment(user: User) : Fragment() {
         super.onDetach()
         listener = null
     }
-
-
 }
