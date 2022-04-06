@@ -3,8 +3,8 @@ package com.example.roomdatabasenobel.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.roomdatabasenobel.data.User
-import com.example.roomdatabasenobel.repository.UserRepo
+import com.example.roomdatabasenobel.model.data.User
+import com.example.roomdatabasenobel.model.repository.UserRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

@@ -1,7 +1,8 @@
-package com.example.roomdatabasenobel.data
+package com.example.roomdatabasenobel.model.data
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.example.roomdatabasenobel.model.data.User
 
 @Dao
 interface UserDao {

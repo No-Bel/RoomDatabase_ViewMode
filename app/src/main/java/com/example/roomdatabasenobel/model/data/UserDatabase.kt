@@ -1,4 +1,4 @@
-package com.example.roomdatabasenobel.data
+package com.example.roomdatabasenobel.model.data
 
 import android.content.Context
 import androidx.room.Database

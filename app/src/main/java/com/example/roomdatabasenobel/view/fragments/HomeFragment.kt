@@ -1,4 +1,4 @@
-package com.example.roomdatabasenobel.fragment
+package com.example.roomdatabasenobel.view.fragments
 
 import android.content.Context
 import android.os.Bundle
@@ -13,11 +13,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.roomdatabasenobel.R
 import com.example.roomdatabasenobel.adapter.MyAdapter
-import com.example.roomdatabasenobel.data.User
-import com.example.roomdatabasenobel.data.UserDao
-import com.example.roomdatabasenobel.data.UserDatabase
+import com.example.roomdatabasenobel.model.data.User
+import com.example.roomdatabasenobel.model.data.UserDao
+import com.example.roomdatabasenobel.model.data.UserDatabase
 import com.example.roomdatabasenobel.databinding.FragmentHomeBinding
-import com.example.roomdatabasenobel.repository.UserRepo
+import com.example.roomdatabasenobel.model.repository.UserRepo
 import com.example.roomdatabasenobel.viewmodel.MainViewModelFactory
 import com.example.roomdatabasenobel.viewmodel.UserViewModel
 

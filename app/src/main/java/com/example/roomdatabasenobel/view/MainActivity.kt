@@ -1,15 +1,17 @@
-package com.example.roomdatabasenobel
+package com.example.roomdatabasenobel.view
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import com.example.roomdatabasenobel.R
 import com.example.roomdatabasenobel.adapter.MyAdapter
-import com.example.roomdatabasenobel.data.User
 import com.example.roomdatabasenobel.databinding.ActivityMainBinding
-import com.example.roomdatabasenobel.fragment.AddFragment
-import com.example.roomdatabasenobel.fragment.HomeFragment
-import com.example.roomdatabasenobel.fragment.UpdateFragment
+import com.example.roomdatabasenobel.model.data.User
+import com.example.roomdatabasenobel.view.fragments.AddFragment
+import com.example.roomdatabasenobel.view.fragments.HomeFragment
+import com.example.roomdatabasenobel.view.fragments.UpdateFragment
 
-class MainActivity : AppCompatActivity(), HomeFragment.AddFabClick, AddFragment.GoBackToHomeScreen, MyAdapter.GoToUpdateFragment,
+class MainActivity : AppCompatActivity(), HomeFragment.AddFabClick, AddFragment.GoBackToHomeScreen,
+    MyAdapter.GoToUpdateFragment,
     UpdateFragment.GoBackHomeScreenFromUpdateFragment {
 
     private lateinit var binding: ActivityMainBinding

@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.roomdatabasenobel.R
-import com.example.roomdatabasenobel.data.User
+import com.example.roomdatabasenobel.model.data.User
 import kotlinx.android.synthetic.main.list_holder.view.*
 
 class MyAdapter : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {

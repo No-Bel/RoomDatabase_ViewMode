@@ -1,8 +1,8 @@
-package com.example.roomdatabasenobel.repository
+package com.example.roomdatabasenobel.model.repository
 
 import androidx.lifecycle.LiveData
-import com.example.roomdatabasenobel.data.User
-import com.example.roomdatabasenobel.data.UserDao
+import com.example.roomdatabasenobel.model.data.User
+import com.example.roomdatabasenobel.model.data.UserDao
 
 class UserRepo(private val userDao: UserDao) {
     val readAllDataRp: LiveData<List<User>> = userDao.readAllDataDao()
